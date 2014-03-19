@@ -14,13 +14,12 @@
 </head>
 <body>
 <canvas width="800" height="500" id="canvas"></canvas>
-<script src="vendor/libs/jquery.min.js"></script>
-<script src="vendor/libs/jquery.class.min.js"></script>
+<script src="vendor/libs/class.js"></script>
 <script>
 
     var flappybird = {};
 
-    flappybird.Pipe = $.Class.extend({
+    flappybird.Pipe = Class.extend({
 
         width: 80,
         height: 180,
@@ -82,7 +81,7 @@
         }
     });
 
-    flappybird.Bird = $.Class.extend({
+    flappybird.Bird = Class.extend({
 
         width: 35,
         height: 30,
@@ -197,7 +196,7 @@
     flappybird.TOP = 0;
     flappybird.BOTTOM = 1;
 
-    flappybird.Ground = $.Class.extend({
+    flappybird.Ground = Class.extend({
         width: 780,
         height: 253,
 
@@ -229,7 +228,7 @@
 
     });
 
-    flappybird.Cloud = $.Class.extend({
+    flappybird.Cloud = Class.extend({
 
         width: 108,
         height: 63,
@@ -258,7 +257,7 @@
 
     });
 
-    flappybird.ScoreBoard = $.Class.extend({
+    flappybird.ScoreBoard = Class.extend({
 
         init: function (stage) {
             this.stage = stage;
@@ -277,7 +276,7 @@
     });
 
 
-    flappybird.Game = $.Class.extend({
+    flappybird.Game = Class.extend({
 
         width: 800,
         height: 500,
