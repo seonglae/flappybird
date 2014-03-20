@@ -9,6 +9,12 @@
         canvas {
             display: block;
             margin: 70px auto;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+             user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
         }
     </style>
 </head>
@@ -437,7 +443,6 @@
             if (this.state == this.states.GAME_OVER) {
                 this.reset();
             }
-
         },
 
         reset: function () {
