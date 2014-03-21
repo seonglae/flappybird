@@ -46,10 +46,10 @@
 
         speed: 2,
 
-        init: function (stage, placement, x) {
+        init: function (stage, placement, x, h) {
             this.stage = stage;
             this.placement = placement;
-            this.height = 100 + parseInt(Math.random() * 170);
+            this.height = h;
             this.x = x || 0;
             this.y = 0;
 
@@ -305,7 +305,8 @@
         score: 0,
 
         pipeCreationRate: 100,
-        pipesSpacing: 140,
+        pipesHorizontalSpacing: 190,
+        pipesVerticalSpacing: 80,
 
         states: {
             WAIT: 0,
@@ -333,16 +334,25 @@
         },
 
         createPipe: function () {
-            if (!this.lastPipe || this.lastPipe.x < (this.width - this.pipesSpacing)) {
-                var placement;
-                if (this.pipes.length % 2 == 0) {
-                    placement = flappybird.TOP;
-                } else {
-                    placement = flappybird.BOTTOM;
-                }
-                var pipe = new flappybird.Pipe(this, placement, this.width);
-                this.pipes.push(pipe);
-                this.lastPipe = pipe;
+            if (!this.lastPipe || this.lastPipe.x < (this.width - this.pipesHorizontalSpacing)) {
+
+                var positionX = this.width,
+                    pipeTop,
+                    pipeBottom,
+                    hTop,
+                    hBottom;
+
+                hTop = parseInt(Math.random() * (this.height / 2)) + 40;
+                hBottom = this.height - this.pipesVerticalSpacing - hTop;
+
+
+                pipeTop = new flappybird.Pipe(this, flappybird.TOP, positionX, hTop);
+                pipeBottom = new flappybird.Pipe(this, flappybird.BOTTOM, positionX, hBottom);
+
+                this.pipes.push(pipeTop);
+                this.pipes.push(pipeBottom);
+
+                this.lastPipe = pipeBottom;
             }
         },
 
