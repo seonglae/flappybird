@@ -46,6 +46,8 @@
 
         speed: 2.5,
 
+        order: 0,
+
         init: function (stage, placement, x, h) {
             this.stage = stage;
             this.placement = placement;
@@ -148,11 +150,11 @@
 
             this.y += this.vertSpeed;
 
-            this.vertSpeed += 0.4;
+            this.vertSpeed += 0.6;
 
             if (this.state == this.states.RISE) {
                 if (this.rotation >= this.minRotation) {
-                    this.rotation -= 0.1;
+                    this.rotation -= 0.3;
                 }
 
                 if (this.flapStartPosition + 10 < this.stage.position) {
@@ -161,7 +163,7 @@
             }
 
             if (this.state == this.states.FALL) {
-                if (this.flapStartPosition + 20 < this.stage.position) {
+                if (this.flapStartPosition + 5 < this.stage.position) {
                     this.state = this.states.FLY;
                 }
             }
@@ -340,7 +342,8 @@
                     pipeTop,
                     pipeBottom,
                     hTop,
-                    hBottom;
+                    hBottom,
+                    order;
 
                 hTop = parseInt(Math.random() * (this.height / 2)) + 40;
                 hBottom = this.height - this.pipesVerticalSpacing - hTop;
@@ -348,6 +351,10 @@
 
                 pipeTop = new flappybird.Pipe(this, flappybird.TOP, positionX, hTop);
                 pipeBottom = new flappybird.Pipe(this, flappybird.BOTTOM, positionX, hBottom);
+
+                order = this.pipes.length + 1;
+
+                pipeTop.order = pipeBottom.order = order;
 
                 this.pipes.push(pipeTop);
                 this.pipes.push(pipeBottom);
@@ -381,8 +388,8 @@
                 for (var i in this.pipes) {
                     var pipe = this.pipes[i];
                     if (this.bird.x > pipe.x + pipe.width) {
-                        if (this.passedPipes.indexOf(pipe) == -1) {
-                            this.passedPipes.push(pipe);
+                        if (this.passedPipes.indexOf(pipe.order) == -1) {
+                            this.passedPipes.push(pipe.order);
                             this.score++;
                         }
                     }
