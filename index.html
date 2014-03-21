@@ -44,7 +44,7 @@
         width: 80,
         height: 180,
 
-        speed: 2,
+        speed: 2.5,
 
         init: function (stage, placement, x, h) {
             this.stage = stage;
@@ -148,7 +148,7 @@
 
             this.y += this.vertSpeed;
 
-            this.vertSpeed += 0.3;
+            this.vertSpeed += 0.4;
 
             if (this.state == this.states.RISE) {
                 if (this.rotation >= this.minRotation) {
@@ -236,7 +236,7 @@
                 this.x = 0;
             }
 
-            this.x -= 2;
+            this.x -= 3;
 
         },
 
@@ -305,8 +305,8 @@
         score: 0,
 
         pipeCreationRate: 100,
-        pipesHorizontalSpacing: 190,
-        pipesVerticalSpacing: 80,
+        pipesHorizontalSpacing: 220,
+        pipesVerticalSpacing: 120,
 
         states: {
             WAIT: 0,
