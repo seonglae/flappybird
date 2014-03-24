@@ -127,8 +127,8 @@
 
         init: function (stage) {
             this.stage = stage;
-            this.stage.canvas.addEventListener('click', this.flap.bind(this));
-            this.stage.canvas.addEventListener('keyup', this.flap.bind(this));
+            this.stage.canvas.addEventListener('mousedown', this.flap.bind(this));
+            this.stage.canvas.addEventListener('keydown', this.flap.bind(this));
 
             this.img = new Image();
             this.img.src = 'assets/bird.png';
