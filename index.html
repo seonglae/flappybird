@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Flappy Bird</title>
+    <meta charset="utf-8">
     <style>
         body {
             background: #ded5ff;
@@ -16,12 +17,16 @@
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             outline: none;
-            image-rendering: optimizespeed; 💙
+            image-rendering: optimizespeed;
         }
         img.asset {
             display: none;
         }
     </style>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
 <!-- preload images -->
@@ -32,7 +37,6 @@
 <canvas width="800" height="500" id="canvas" tabindex="1"></canvas>
 <script src="vendor/libs/class.js"></script>
 <script>
-
     var flappybird = {};
 
     flappybird.Pipe = Class.extend({
@@ -40,7 +44,7 @@
         width: 72,
         height: 180,
 
-        speed: 2.5,
+        speed: 3,
 
         order: 0,
 
