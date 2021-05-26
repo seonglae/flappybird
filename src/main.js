@@ -10,12 +10,16 @@ export const BOTTOM = 1
 const flappybird = { Cloud, Pipe, Bird, Ground, ScoreBoard }
 
 const Game = Class.extend({
-  width: 800,
-  height: 500,
+  width: window.innerWidth,
+  height: window.innerHeight,
   position: 0,
   score: 0,
-  pipeCreationRate: 100,
-  pipesHorizontalSpacing: 240,
+  pipesHorizontalSpacing: () => {
+    const normal = (200 * window.innerHeight) / window.innerWidth
+    if (normal > 600) return 400
+    else if (normal < 150) return 150
+    else return normal
+  },
   pipesVerticalSpacing: 180,
   states: { WAIT: 0, PLAYING: 1, GAME_OVER: 2 },
 
@@ -41,7 +45,7 @@ const Game = Class.extend({
   createPipe: function () {
     if (
       !this.lastPipe ||
-      this.lastPipe.x < this.width - this.pipesHorizontalSpacing
+      this.lastPipe.x < this.width - this.pipesHorizontalSpacing()
     ) {
       let positionX = this.width,
         pipeTop,
@@ -88,12 +92,16 @@ const Game = Class.extend({
   },
 
   showGameOverScreen: function () {
+    const size = 50
     this.context.fillStyle = '#000'
     this.context.textAlign = 'center'
-    this.context.font = 'bold 30px helvetica'
-    this.context.fillText('GAME OVER', 400, 240)
-    this.context.fillText('SCORE: ' + this.score, 400, 280)
-    this.context.fillText('HIGHEST SCORE: ' + localStorage.highest, 400, 320)
+    this.context.font = `bold ${size}px helvetica`
+
+    const x = window.innerWidth / 2
+    const y = window.innerWidth / 2
+    this.context.fillText('GAME OVER', x, y - size)
+    this.context.fillText('SCORE: ' + this.score, x, y)
+    this.context.fillText('HIGHEST SCORE: ' + localStorage.highest, x, y + size)
   },
 
   update: function () {
@@ -149,6 +157,9 @@ const Game = Class.extend({
   }
 })
 
-let game = new Game({ canvas: document.getElementById('canvas') })
+const canvas = document.getElementById('canvas')
+canvas.width = String(window.innerWidth)
+canvas.height = String(window.innerHeight)
+let game = new Game({ canvas })
 if (!localStorage.highest) localStorage.highest = 0
 game.loop()
