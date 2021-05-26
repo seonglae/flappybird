@@ -17,11 +17,7 @@ const Game = Class.extend({
   pipeCreationRate: 100,
   pipesHorizontalSpacing: 240,
   pipesVerticalSpacing: 180,
-  states: {
-    WAIT: 0,
-    PLAYING: 1,
-    GAME_OVER: 2
-  },
+  states: { WAIT: 0, PLAYING: 1, GAME_OVER: 2 },
 
   init: function (options) {
     this.canvas = options.canvas
@@ -84,7 +80,10 @@ const Game = Class.extend({
         if (this.bird.x > pipe.x + pipe.width)
           if (this.passedPipes.indexOf(pipe.order) == -1) {
             this.passedPipes.push(pipe.order)
+            console.log(this.score)
             this.score++
+            if (this.score > Number(localStorage.highest))
+              localStorage.highest = this.score
           }
   },
 
@@ -94,6 +93,7 @@ const Game = Class.extend({
     this.context.font = 'bold 30px helvetica'
     this.context.fillText('GAME OVER', 400, 240)
     this.context.fillText('SCORE: ' + this.score, 400, 280)
+    this.context.fillText('HIGHEST SCORE: ' + localStorage.highest, 400, 320)
   },
 
   update: function () {
@@ -115,7 +115,10 @@ const Game = Class.extend({
     for (let pipe of this.pipes) pipe.draw()
     this.bird.draw()
     this.scoreboard.draw()
-    if (this.state == this.states.GAME_OVER) this.showGameOverScreen()
+    if (this.state == this.states.GAME_OVER) {
+      this.passedPipes = []
+      this.showGameOverScreen()
+    }
   },
 
   clear: function () {
@@ -147,4 +150,5 @@ const Game = Class.extend({
 })
 
 let game = new Game({ canvas: document.getElementById('canvas') })
+if (!localStorage.highest) localStorage.highest = 0
 game.loop()
