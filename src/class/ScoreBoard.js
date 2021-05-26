@@ -11,5 +11,10 @@ export default Class.extend({
     this.stage.context.font = '16px Helvetica'
     this.stage.context.fillStyle = '#000'
     this.stage.context.fillText(scoreText, 12, 25)
+    this.stage.context.fillText(
+      `Highest Score: ${localStorage.highest}`,
+      12,
+      45
+    )
   }
 })

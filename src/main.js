@@ -7,7 +7,10 @@ import ScoreBoard from './class/ScoreBoard.js'
 export const TOP = 0
 export const BOTTOM = 1
 
-const flappybird = { Cloud, Pipe, Bird, Ground, ScoreBoard }
+const canvas = document.getElementById('canvas')
+canvas.width = String(window.innerWidth)
+canvas.height = String(window.innerHeight)
+if (!localStorage.highest) localStorage.highest = 0
 
 const Game = Class.extend({
   width: window.innerWidth,
@@ -16,7 +19,7 @@ const Game = Class.extend({
   score: 0,
   pipesHorizontalSpacing: () => {
     const normal = (200 * window.innerHeight) / window.innerWidth
-    if (normal > 600) return 400
+    if (normal > 500) return 500
     else if (normal < 150) return 150
     else return normal
   },
@@ -26,20 +29,26 @@ const Game = Class.extend({
   init: function (options) {
     this.canvas = options.canvas
     this.context = this.canvas.getContext('2d')
-    this.bird = new flappybird.Bird(this)
-    this.ground = new flappybird.Ground(this)
-    this.scoreboard = new flappybird.ScoreBoard(this)
+    this.bird = new Bird(this)
+    this.ground = new Ground(this)
+    this.scoreboard = new ScoreBoard(this)
     this.clouds = [
-      new flappybird.Cloud(this, 100, 30, 0.1),
-      new flappybird.Cloud(this, 300, 60, 0.4),
-      new flappybird.Cloud(this, 500, 20, 0.4),
-      new flappybird.Cloud(this, 700, 30, 0.1)
+      new Cloud(this, 100, 30, 0.1),
+      new Cloud(this, 300, 60, 0.4),
+      new Cloud(this, 500, 20, 0.4),
+      new Cloud(this, 700, 30, 0.1)
     ]
     this.pipes = []
     this.passedPipes = []
     this.lastPipe = null
     this.state = this.states.WAIT
     this.canvas.addEventListener('click', this.onclick.bind(this))
+    window.addEventListener('resize', () => {
+      canvas.width = String(window.innerWidth)
+      canvas.height = String(window.innerHeight)
+      this.width = window.innerWidth
+      this.height = window.innerHeight
+    })
   },
 
   createPipe: function () {
@@ -55,8 +64,8 @@ const Game = Class.extend({
         order
       hTop = parseInt(Math.random() * (this.height / 2)) + 40
       hBottom = this.height - this.pipesVerticalSpacing - hTop
-      pipeTop = new flappybird.Pipe(this, TOP, positionX, hTop)
-      pipeBottom = new flappybird.Pipe(this, BOTTOM, positionX, hBottom)
+      pipeTop = new Pipe(this, TOP, positionX, hTop)
+      pipeBottom = new Pipe(this, BOTTOM, positionX, hBottom)
       order = this.pipes.length + 1
       pipeTop.order = pipeBottom.order = order
       this.pipes.push(pipeTop)
@@ -157,9 +166,5 @@ const Game = Class.extend({
   }
 })
 
-const canvas = document.getElementById('canvas')
-canvas.width = String(window.innerWidth)
-canvas.height = String(window.innerHeight)
 let game = new Game({ canvas })
-if (!localStorage.highest) localStorage.highest = 0
 game.loop()
